@@ -1,15 +1,26 @@
+import { useEffect, useState } from 'react';
 import './App.css';
+import { getPokemons } from './services/pokemonService';
+import Pokemon from './components/Pokemon';
 
 function App() {
-  async function hello() {
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon/ditto');
-    const ditto = await response.json();
-    console.log(ditto.name);
-  }
+  const [pokemon, setPokemon] = useState('');
 
-  hello();
+  useEffect(() => {
+    const getPokemon = async () => {
+      const data = await getPokemons();
+      setPokemon(data);
+    };
 
-  return <></>;
+    getPokemon();
+  }, []);
+
+  return (
+    <>
+      <h1>Pokemon API</h1>
+      <Pokemon pokemon={pokemon} />
+    </>
+  );
 }
 
 export default App;
